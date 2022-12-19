@@ -26,8 +26,8 @@ docker-compose -f docker.dev.yml up
 ```shell
 docker exec -ti train-ocr bash
 ```
- - Create a ground truth folder and migrate all the training images and transcriptions into it
- -
+- Create a ground truth folder and migrate all the training images and transcriptions into it
+
  ```shell
 mkdir -p /app/src/tesstrain/data/<model_name>-ground-truth
 cp -a /app/data/ground-truth/* /app/src/tesstrain/data/<model_name>-ground-truth/.

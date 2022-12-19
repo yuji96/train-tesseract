@@ -1,5 +1,5 @@
 # Set docker image
-FROM ubuntu:18.04
+FROM ubuntu:latest
 
 # Skip the configuration part
 ENV DEBIAN_FRONTEND noninteractive

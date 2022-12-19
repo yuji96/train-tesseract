@@ -7,6 +7,7 @@ MODEL_NAME=sample
 
 cd /app/src
 if [ ! -d tesstrain ]; then
+  # TODO: change to zip
   git clone --depth=1 https://github.com/tesseract-ocr/tesstrain.git
 fi
 cd tesstrain

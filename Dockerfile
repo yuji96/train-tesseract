@@ -24,12 +24,13 @@ COPY requirements.txt ./
 # Getting tesstrain: beware the source might change or not being available
 # Complie Tesseract with training options (also feel free to update Tesseract versions and such!)
 # Getting data: beware the source might change or not being available
+ARG TESS_VERSION=5.2.0
 RUN mkdir src && cd /app/src && \
-    wget https://github.com/tesseract-ocr/tesseract/archive/4.1.0.zip && \
-	unzip 4.1.0.zip && \
-    cd /app/src/tesseract-4.1.0 && ./autogen.sh && ./configure && make && make install && ldconfig && \
+    wget https://github.com/tesseract-ocr/tesseract/archive/refs/tags/$TESS_VERSION.zip -O $TESS_VERSION.zip && \
+	unzip $TESS_VERSION.zip && \
+    cd /app/src/tesseract-$TESS_VERSION && ./autogen.sh && ./configure && make && make install && ldconfig && \
     make training && make training-install && \
-    cd /usr/local/share/tessdata && wget https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata
+    cd /usr/local/share/tessdata && wget https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata -O eng_best.traineddata
 
 # Setting the data prefix
 ENV TESSDATA_PREFIX=/usr/local/share/tessdata

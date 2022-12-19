@@ -5,12 +5,14 @@ FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update and install depedencies
-RUN apt-get update && \
-    apt-get install -y wget unzip bc vim python3-pip libleptonica-dev git
+RUN apt update && apt install -y wget unzip bc vim libleptonica-dev git make g++
 
 # Packages to complie Tesseract
-RUN apt-get install -y --reinstall make && \
-    apt-get install -y g++ autoconf automake libtool pkg-config libpng-dev libjpeg8-dev libtiff5-dev libicu-dev \
+RUN cd /tmp && wget http://ftp.gnu.org/gnu/make/make-4.4.tar.gz && tar xvf make-4.4.tar.gz && \
+    cd make-4.4/ && ./configure && make && make install && \
+    cd .. && rm -rf make-4.4.tar.gz make-4.4
+ENV PATH=/usr/local/bin:$PATH
+RUN apt install -y autoconf automake libtool pkg-config libpng-dev libjpeg8-dev libtiff5-dev libicu-dev \
         libpango1.0-dev autoconf-archive
 
 # Set working directory
@@ -36,7 +38,7 @@ ENV TESSDATA_PREFIX=/usr/local/share/tessdata
 RUN pip3 install -r requirements.txt
 
 # Set the locale
-RUN apt-get install -y locales && locale-gen en_US.UTF-8
+RUN apt install -y locales && locale-gen en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8

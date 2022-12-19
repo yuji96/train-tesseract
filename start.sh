@@ -12,10 +12,9 @@ if [ ! -d tesstrain ]; then
 fi
 cd tesstrain
 
-# TODO: use symlink, remove previous ground-truth
 rm -rf /app/src/tesstrain/data/$MODEL_NAME-ground-truth/
 mkdir -p /app/src/tesstrain/data/$MODEL_NAME-ground-truth
-cp -s /app/data/ground-truth/* \
+cp -s /app/data/$MODEL_NAME/ground-truth/* \
       /app/src/tesstrain/data/$MODEL_NAME-ground-truth/
 
 echo $(cat /app/args.txt | sed "s/#.*//" | xargs)
@@ -28,4 +27,5 @@ if [ ! -d data/langdata ]; then
   make tesseract-langdata
 fi
 
-cat /app/args.txt | sed "s/#.*//" | xargs make training
+# TODO: don't overwrite
+cat /app/args.txt | sed "s/#.*//" | xargs make training 2>&1 | tee /app/log.txt

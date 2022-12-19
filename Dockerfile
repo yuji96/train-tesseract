@@ -36,6 +36,11 @@ RUN mkdir src && cd /app/src && \
 ENV TESSDATA_PREFIX=/usr/local/share/tessdata
 
 # Install libraries using pip installer
+# TODO: check deadsnakes
+RUN apt install -y software-properties-common && add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt update && apt install -y python3.11
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+RUN cd /tmp && wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
 RUN pip3 install -r requirements.txt
 
 # Set the locale

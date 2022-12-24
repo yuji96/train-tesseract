@@ -1,6 +1,5 @@
 #!/bin/bash
-
-# tail -f /dev/null
+set -v
 
 # TODO: とりあえず今は直で指定
 MODEL_NAME=sample
@@ -12,10 +11,10 @@ if [ ! -d tesstrain ]; then
 fi
 cd tesstrain
 
-rm -rf /app/src/tesstrain/data/$MODEL_NAME-ground-truth/
-mkdir -p /app/src/tesstrain/data/$MODEL_NAME-ground-truth
-cp -s /app/data/$MODEL_NAME/ground-truth/* \
-      /app/src/tesstrain/data/$MODEL_NAME-ground-truth/
+# 経由しない
+# rm -rf /app/src/tesstrain/data/$MODEL_NAME-ground-truth/
+# mv /app/data/$MODEL_NAME/ground-truth/ \
+#     /app/src/tesstrain/data/$MODEL_NAME-ground-truth
 
 echo $(cat /app/args.txt | sed "s/#.*//" | xargs)
 
@@ -27,5 +26,8 @@ if [ ! -d data/langdata ]; then
   make tesseract-langdata
 fi
 
+# いまだけ
+rm /app/src/tesstrain/data/$MODEL_NAME/all-lstmf 
+
 # TODO: don't overwrite
-cat /app/args.txt | sed "s/#.*//" | xargs make training 2>&1 | tee /app/log.txt
+cat /app/args.txt | sed "s/#.*//" | xargs make training 2>&1 | tee /app/$MODEL_NAME.txt
